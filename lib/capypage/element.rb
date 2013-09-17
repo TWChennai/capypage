@@ -5,9 +5,6 @@ module Capypage
   class Element
     attr_accessor :selector, :prefix, :finder_options, :base_element
 
-    delegate :click, :set, :text, :all, :find, :[], :native, :disabled?, :selected?, :has_text?, :has_no_text?, :checked?, :has_selector?,
-             :to => :capybara_element
-
     def initialize(selector, prefix = nil, options = {}, &block)
       options.reverse_merge! :match => :smart
       @selector = selector
@@ -43,5 +40,12 @@ module Capypage
     def element_selector
       [prefix, selector].compact.join(" ")
     end
+
+    def self.capybara_element_methods
+      Capybara::Node::Element.instance_methods - Object.methods
+    end
+
+    delegate *capybara_element_methods,
+             :to => :capybara_element
   end
 end
