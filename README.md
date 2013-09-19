@@ -2,6 +2,8 @@
 
 Page Object Model for Capybara
 
+[![Build Status](https://travis-ci.org/TWChennai/capypage.png?branch=master)](https://travis-ci.org/TWChennai/capypage)
+
 ## Installation
 
 Add this line to your application's Gemfile:
