@@ -1,1 +1,1 @@
-* Get rid of prefix in favour of base_element
+* Break Element, Elements inheritance and extract common parts to a module

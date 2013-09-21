@@ -5,6 +5,10 @@ Capybara.app = lambda { |_|
   [200, { 'Content-Type' => 'application/html' }, File.read(File.join(File.dirname(__FILE__), 'sample_page.html'))]
 }
 
+class PopupSection < Capypage::Section
+  element :title, '.title'
+end
+
 class SamplePage < Capypage::Page
   set_url '/'
 
@@ -16,4 +20,6 @@ class SamplePage < Capypage::Page
     row.element :title, '.title'
     row.element :details, '.details'
   end
+
+  section :popup, PopupSection, '.popup'
 end
