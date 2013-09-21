@@ -9,9 +9,11 @@ class SamplePage < Capypage::Page
   set_url '/'
 
   element :header, 'header'
+  element :missing_element, '.missing.element'
+  element :invisble_element, '.invisible'
+
   elements :list, 'ul.list', 'li' do |row|
     row.element :title, '.title'
     row.element :details, '.details'
   end
-
 end

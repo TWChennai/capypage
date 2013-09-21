@@ -17,9 +17,9 @@ describe Capypage::Elements do
 
     it 'should return false when the child does not exists' do
       element = elements.find_by_text 'Hello'
-      expect(element).to_not be_present
+      expect(element).to_not be_visible
 
-      expect(elements.find_by_text('Title 1')).to be_present
+      expect(elements.find_by_text('Title 1')).to be_visible
     end
 
     it 'should look up the element in parent selector' do

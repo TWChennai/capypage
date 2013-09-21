@@ -54,7 +54,7 @@ module Capypage
     end
 
     def self.capybara_element_methods
-      Capybara::Node::Element.instance_methods - Object.methods
+      Capybara::Node::Element.instance_methods - Object.methods - [:visible?]
     end
 
     delegate *capybara_element_methods,

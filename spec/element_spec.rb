@@ -11,4 +11,17 @@ describe Capypage::Element do
     expect(page.header).to_not have_text('Foo')
   end
 
+  describe '#present?' do
+    it 'should be true for elements which are present' do
+      expect(page.header).to be_present
+      expect(page.missing_element).to_not be_present
+    end
+  end
+
+  describe '#visible?' do
+    it 'should be true for elements which are visible' do
+      expect(page.header).to be_visible
+      expect(page.invisble_element).to_not be_visible
+    end
+  end
 end
