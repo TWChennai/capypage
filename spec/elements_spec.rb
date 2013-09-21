@@ -15,6 +15,13 @@ describe Capypage::Elements do
       expect(element.details.text).to eq('Details 1')
     end
 
+    it 'should return false when the child does not exists' do
+      element = elements.find_by_text 'Hello'
+      expect(element).to_not be_present
+
+      expect(elements.find_by_text('Title 1')).to be_present
+    end
+
     it 'should look up the element in parent selector' do
       element = elements.find_by_text 'Hello'
       expect(element.base_element).to_not eq(Capybara.current_session)

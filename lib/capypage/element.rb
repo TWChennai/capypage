@@ -24,8 +24,11 @@ module Capypage
       define_singleton_method(name) { Elements.new(selector, prefix, options.reverse_merge!(:base_element => base), &block) }
     end
 
+    def present?
+      base_element.has_selector? element_selector, capybara_finder_options
+    end
+
     def visible?(options = {})
-      options.reverse_merge! :wait => 2
       return capybara_element(options).visible?
     rescue Capybara::ElementNotFound
       false
