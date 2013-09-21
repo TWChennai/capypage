@@ -14,10 +14,16 @@ describe Capypage::Elements do
       element = elements.find_by_text('Title 1')
       expect(element.details.text).to eq('Details 1')
     end
+
+    it 'should look up the element in parent selector' do
+      element = elements.find_by_text 'Hello'
+      expect(element.base_element).to_not eq(Capybara.current_session)
+      expect(element.base_element.selector).to eq('ul.list')
+    end
   end
 
   describe 'delegation of capybara methods to the collection' do
-    xit 'should delegate has_text' do
+    it 'should delegate has_text' do
       expect(elements).to have_text('Title 1')
     end
   end

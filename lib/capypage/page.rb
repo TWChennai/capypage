@@ -22,8 +22,8 @@ module Capypage
         define_method(name) { Element.new(selector, prefix, options) }
       end
 
-      def elements(name, selector, options = {}, &block)
-        define_method(name) { Elements.new(selector, prefix, options, &block) }
+      def elements(name, parent_selector, children_selector, options = {}, &block)
+        define_method(name) { Elements.new(parent_selector, children_selector, prefix, options, &block) }
       end
 
       def section(name, section, selector, options = {})

@@ -20,7 +20,7 @@ module DuckDuckGo
   end
 
   class ResultsPage < Capypage::Page
-    elements :results, '#links .results_links_deep' do |result|
+    elements :results, '#links', '.results_links_deep' do |result|
       result.element :link, '.links_main a'
       result.element :snippet, '.snippet'
     end

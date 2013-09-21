@@ -9,7 +9,7 @@ class SamplePage < Capypage::Page
   set_url '/'
 
   element :header, 'header'
-  elements :list, 'ul.list li' do |row|
+  elements :list, 'ul.list', 'li' do |row|
     row.element :title, '.title'
     row.element :details, '.details'
   end

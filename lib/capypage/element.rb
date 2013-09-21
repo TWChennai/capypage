@@ -6,11 +6,11 @@ module Capypage
     attr_accessor :selector, :prefix, :finder_options, :base_element
 
     def initialize(selector, prefix = nil, options = {}, &block)
-      options.reverse_merge! :match => :smart
+      options.reverse_merge! :match => :first
+      @finder_options = options.clone
       @selector = selector
       @prefix = prefix
-      @finder_options = options
-      @base_element = options.delete(:base_element) || Capybara.current_session
+      @base_element = finder_options[:base_element] || capybara_page
       block.call(self) if block.present?
     end
 
@@ -25,7 +25,6 @@ module Capypage
     end
 
     def visible?(options = {})
-      options.reverse_merge! finder_options
       options.reverse_merge! :wait => 2
       return capybara_element(options).visible?
     rescue Capybara::ElementNotFound
@@ -34,11 +33,21 @@ module Capypage
 
     protected
     def capybara_element(options = {})
-      base_element.find(element_selector, options.reverse_merge(finder_options))
+      base_element.find(element_selector, capybara_finder_options(options))
     end
 
     def element_selector
       [prefix, selector].compact.join(" ")
+    end
+
+    def capybara_page
+      Capybara.current_session
+    end
+
+    def capybara_finder_options(options = {})
+      finder_options_without_base = finder_options.clone
+      finder_options_without_base.delete(:base_element)
+      options.reverse_merge finder_options_without_base
     end
 
     def self.capybara_element_methods

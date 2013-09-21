@@ -6,30 +6,20 @@ module Capypage
     delegate :each, :size, :[],
              :to => :all
 
-    def initialize(selector, prefix = nil, options = {}, &block)
-      super(selector, prefix, options)
+    def initialize(parent_selector, children_selector, prefix = nil, options = {}, &block)
+      parent_selector_options = options.merge :base_element => Element.new(parent_selector, prefix, options)
+
+      super(children_selector, prefix, parent_selector_options)
       @child_dsl_block = block
     end
 
     def all(options = {})
       base_element.has_selector? element_selector
-      base_element.all(element_selector, options.reverse_merge(finder_options))
-    end
-
-    def find(text, options = {})
-      capybara_element options.merge(:text => text)
+      base_element.all(element_selector, capybara_finder_options(options))
     end
 
     def find_by_text(text, options = {})
       Element.new(selector, prefix, finder_options.merge(options).merge(:text => text), &child_dsl_block)
-    end
-
-    def find_first(index = 1)
-      Elements.new("#{element_selector}:nth-child(-n+#{index})", prefix, finder_options)
-    end
-
-    def find_last(index = 1)
-      Elements.new("#{element_selector}:nth-last-child(-n+#{index})", prefix, finder_options)
     end
 
     def find_by_index(index)
