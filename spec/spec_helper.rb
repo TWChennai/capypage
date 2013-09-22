@@ -1,9 +1,18 @@
 require 'capypage'
 require 'capybara/rspec'
+require 'sinatra/base'
 
-Capybara.app = lambda { |_|
-  [200, { 'Content-Type' => 'application/html' }, File.read(File.join(File.dirname(__FILE__), 'sample_page.html'))]
-}
+class TestApp < Sinatra::Base
+  get '/' do
+    File.read(File.join(File.dirname(__FILE__), 'html', 'sample_page.html'))
+  end
+
+  get '/echo/:input' do
+    "<p class='echo'>#{params[:input]}</p>"
+  end
+end
+
+Capybara.app = TestApp.new
 
 class PopupSection < Capypage::Section
   element :title, '.title'
@@ -22,4 +31,10 @@ class SamplePage < Capypage::Page
   end
 
   section :popup, PopupSection, '.popup'
+end
+
+class EchoPage < Capypage::Page
+  set_url '/echo/:input'
+
+  element :content, 'p.echo'
 end

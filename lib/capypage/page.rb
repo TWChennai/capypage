@@ -5,9 +5,11 @@ module Capypage
   class Page
     include Capybara::DSL
     class_attribute :url
-    attr_reader :finder_options
+    attr_reader :finder_options, :url_options
 
-    def initialize(prefix = nil, options = {})
+    def initialize(options = {})
+      prefix = options.delete(:prefix)
+      @url_options = options.delete(:url_options) || {}
       @finder_options = options.merge(:base_element => prefix ? Element.new(prefix, :base_element => Capybara.current_session) : Capybara.current_session)
     end
 
@@ -25,12 +27,18 @@ module Capypage
       end
 
       def section(name, section, selector, options = {})
-        define_method(name) { section.new(selector, options) }
+        define_method(name) { section.new(options.merge :prefix => selector) }
+      end
+
+      def visit(url_options = {})
+        new(:url_options => url_options).tap &:load
       end
     end
 
     def load
-      visit self.class.url
+      url = self.class.url.clone
+      url_options.each { |k, v| url.gsub!(":#{k}", v) }
+      visit url
     end
   end
 end

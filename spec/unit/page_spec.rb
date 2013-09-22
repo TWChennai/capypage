@@ -5,9 +5,19 @@ describe Capypage::Page do
   let(:current_session) { Capybara.current_session }
 
   context 'page loading' do
-    it 'should load the page' do
-      current_session.should_receive(:visit).with(SamplePage.url)
-      page.load
+    context 'complete url' do
+      it 'should load the page' do
+        current_session.should_receive(:visit).with(SamplePage.url)
+        page.load
+      end
+    end
+
+    context 'dynamic url' do
+      it 'should load the page with the options substituted' do
+        page = EchoPage.visit :input => 'Hello'
+        expect(page.current_url).to end_with '/echo/Hello'
+        expect(page.content.text).to eq('Hello')
+      end
     end
   end
 
@@ -30,7 +40,6 @@ describe Capypage::Page do
       it 'should return the element in the collection and its details' do
         expect(elements.find_by_index(0).title.text).to eq('Title 1')
       end
-
     end
   end
 

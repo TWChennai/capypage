@@ -8,7 +8,7 @@ Capybara.default_driver = :webkit
 
 module DuckDuckGo
   class HomePage < Capypage::Page
-    self.url = 'https://duckduckgo.com/'
+    set_url 'https://duckduckgo.com/'
 
     element :search_input, 'input[name=q]'
     element :search_button, 'input#search_button_homepage'
@@ -20,6 +20,8 @@ module DuckDuckGo
   end
 
   class ResultsPage < Capypage::Page
+    set_url 'https://duckduckgo.com/?q=:query'
+
     elements :results, '#links', '.results_links_deep' do |result|
       result.element :link, '.links_main a'
       result.element :snippet, '.snippet'

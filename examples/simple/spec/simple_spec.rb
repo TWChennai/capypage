@@ -12,4 +12,9 @@ describe 'Simple example', :type => :feature do
     expect(capybara_result.link[:href]).to eq('https://github.com/jnicklas/capybara')
     expect(capybara_result.snippet).to have_text('Capybara helps you test web applications')
   end
+
+  it 'should load the page with custom url' do
+    page = DuckDuckGo::ResultsPage.visit :query => 'capybara'
+    expect(page.results).to have_text('jnicklas')
+  end
 end

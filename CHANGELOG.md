@@ -1,3 +1,7 @@
+v 0.2.3
+
+* Pages with dynamic (substitutable urls)
+
 v 0.2.1
 
 * Only page takes a prefix now
