@@ -15,31 +15,27 @@ module Capypage
 
     def element(name, selector, options = {})
       base = self
-      define_singleton_method(name) { Element.new(selector, options.reverse_merge!(:match => :first, :base_element => base)) }
+      define_singleton_method(name) { Element.new(selector, options.merge(:base_element => base)) }
     end
 
     def elements(name, selector, options = {}, &block)
       base = self
-      define_singleton_method(name) { Elements.new(selector, options.reverse_merge!(:base_element => base), &block) }
+      define_singleton_method(name) { Elements.new(selector, options.merge(:base_element => base), &block) }
     end
 
     def present?
-      base_element.has_selector? element_selector, capybara_finder_options
+      base_element.has_selector? selector, capybara_finder_options
     end
 
     def visible?(options = {})
-      return capybara_element(options).visible?
+      capybara_element(options).visible?
     rescue Capybara::ElementNotFound
       false
     end
 
     protected
     def capybara_element(options = {})
-      base_element.find(element_selector, capybara_finder_options(options))
-    end
-
-    def element_selector
-      selector
+      base_element.find(selector, capybara_finder_options(options))
     end
 
     def capybara_finder_options(options = {})
@@ -49,7 +45,7 @@ module Capypage
     end
 
     def self.capybara_element_methods
-      Capybara::Node::Element.instance_methods - Object.methods - [:visible?]
+      Capybara::Node::Element.instance_methods - Object.methods - instance_methods
     end
 
     delegate *capybara_element_methods,

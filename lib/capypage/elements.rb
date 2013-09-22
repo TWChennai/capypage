@@ -18,12 +18,12 @@ module Capypage
     end
 
     def find_by_index(index)
-      Element.new("#{element_selector}:nth-child(#{index + 1})", finder_options, &child_dsl_block)
+      Element.new("#{selector}:nth-child(#{index + 1})", finder_options, &child_dsl_block)
     end
 
     private
     def all(options = {})
-      base_element.all(element_selector, capybara_finder_options(options))
+      base_element.all(selector, capybara_finder_options(options))
     end
 
   end
