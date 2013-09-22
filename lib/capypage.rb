@@ -6,6 +6,7 @@ require 'capybara'
 
 require 'capypage/version'
 require 'capypage/page'
+require 'capypage/element_proxy'
 require 'capypage/element'
 require 'capypage/elements'
 require 'capypage/section'

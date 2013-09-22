@@ -5,7 +5,7 @@ module Capypage
   class Page
     include Capybara::DSL
     class_attribute :url
-    attr_accessor :prefix, :finder_options
+    attr_reader :finder_options
 
     def initialize(prefix = nil, options = {})
       @finder_options = options.merge(:base_element => prefix ? Element.new(prefix, :base_element => Capybara.current_session) : Capybara.current_session)

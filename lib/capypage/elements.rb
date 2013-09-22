@@ -1,30 +1,40 @@
 module Capypage
-  class Elements < Element
+  class Elements
     include Enumerable
-    attr_accessor :child_dsl_block
+    include Capypage::ElementProxy
+
+    attr_reader :child_dsl_block, :child_selector, :base_element
 
     delegate :each, :size, :[],
              :to => :all
 
-    def initialize(parent_selector, children_selector, options = {}, &block)
-      parent_selector_options = options.merge :base_element => Element.new(parent_selector, options)
+    def initialize(parent_selector, child_selector, options = {}, &block)
+      @base_element = Element.new(parent_selector, options)
+      @child_selector = child_selector
 
-      super(children_selector, parent_selector_options)
       @child_dsl_block = block
     end
 
     def find_by_text(text, options = {})
-      Element.new(selector, finder_options.merge(options).merge(:text => text), &child_dsl_block)
+      Element.new(child_selector, options.merge(finder_options(:text => text)), &child_dsl_block)
     end
 
     def find_by_index(index)
-      Element.new("#{selector}:nth-child(#{index + 1})", finder_options, &child_dsl_block)
+      Element.new("#{child_selector}:nth-child(#{index + 1})", finder_options, &child_dsl_block)
+    end
+
+    protected
+    def capybara_element
+      base_element
     end
 
     private
     def all(options = {})
-      base_element.all(selector, capybara_finder_options(options))
+      base_element.all(child_selector, options)
     end
 
+    def finder_options(options = {})
+      options.merge(:base_element => base_element)
+    end
   end
 end
