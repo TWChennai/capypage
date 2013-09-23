@@ -9,7 +9,7 @@ module Capypage
              :to => :all
 
     def initialize(parent_selector, child_selector, options = {}, &block)
-      @base_element = Element.new(parent_selector, options)
+      @base_element   = Element.new(parent_selector, options)
       @child_selector = child_selector
 
       @child_dsl_block = block

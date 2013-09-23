@@ -8,8 +8,8 @@ module Capypage
     attr_reader :finder_options, :url_options
 
     def initialize(options = {})
-      prefix = options.delete(:prefix)
-      @url_options = options.delete(:url_options) || {}
+      prefix          = options.delete(:prefix)
+      @url_options    = options.delete(:url_options) || {}
       @finder_options = options.merge(:base_element => prefix ? Element.new(prefix, :base_element => Capybara.current_session) : Capybara.current_session)
     end
 
@@ -36,9 +36,7 @@ module Capypage
     end
 
     def load
-      url = self.class.url.clone
-      url_options.each { |k, v| url.gsub!(":#{k}", v) }
-      visit url
+      visit url.clone.tap{ |page_url|  url_options.each { |k, v| page_url.gsub!(":#{k}", v) } }
     end
   end
 end

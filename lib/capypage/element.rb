@@ -9,8 +9,8 @@ module Capypage
 
     def initialize(selector, options = {}, &block)
       @finder_options = options.reverse_merge :match => :first
-      @selector = selector
-      @base_element = finder_options[:base_element]
+      @selector       = selector
+      @base_element   = finder_options[:base_element]
 
       block.call(self) if block.present?
     end

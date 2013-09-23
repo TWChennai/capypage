@@ -18,6 +18,10 @@ describe Capypage::Page do
         expect(page.current_url).to end_with '/echo/Hello'
         expect(page.content.text).to eq('Hello')
       end
+
+      it 'should be able to handle different values for the substitution' do
+        expect(EchoPage.visit(:input => 'world').current_url).to end_with '/echo/world'
+      end
     end
   end
 
