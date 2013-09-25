@@ -1,3 +1,6 @@
+v 0.2.4
+* Activesupport can be >= 3.0.0
+
 v 0.2.3
 
 * Pages with dynamic (substitutable urls)
