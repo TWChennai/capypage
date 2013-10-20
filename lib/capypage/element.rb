@@ -5,12 +5,13 @@ module Capypage
   class Element
     include Capypage::ElementProxy
 
-    attr_reader :selector, :finder_options, :base_element
+    attr_reader :selector, :finder_options, :base_element, :select_using
 
     def initialize(selector, options = {}, &block)
       @finder_options = options.reverse_merge :match => :first
       @selector       = selector
       @base_element   = finder_options[:base_element]
+      @select_using   = finder_options.delete(:select_using) || Capybara.default_selector
 
       block.call(self) if block.present?
     end
@@ -37,7 +38,7 @@ module Capypage
 
     protected
     def capybara_element(options = {})
-      base_element.find(selector, capybara_finder_options(options))
+      base_element.find(select_using, selector, capybara_finder_options(options))
     end
 
     def capybara_finder_options(options = {})

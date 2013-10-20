@@ -1,3 +1,6 @@
+v 0.2.5
+* Support for different selectors at element level
+
 v 0.2.4
 * Activesupport can be >= 3.0.0
 
