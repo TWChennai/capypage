@@ -30,6 +30,10 @@ module Capypage
       base_element.has_selector? selector, capybara_finder_options
     end
 
+    def not_present?
+      base_element.has_no_selector? selector, capybara_finder_options
+    end
+
     def visible?(options = {})
       capybara_element(options).visible?
     rescue Capybara::ElementNotFound
