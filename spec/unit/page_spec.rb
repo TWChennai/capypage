@@ -7,7 +7,7 @@ describe Capypage::Page do
   context 'page loading' do
     context 'complete url' do
       it 'should load the page' do
-        current_session.should_receive(:visit).with(SamplePage.url)
+        expect(current_session).to receive(:visit).with(SamplePage.url)
         page.load
       end
     end
