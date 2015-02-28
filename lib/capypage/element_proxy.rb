@@ -11,6 +11,7 @@ module Capypage
 
     module ClassMethods
       def capybara_element_methods
+        # TODO: Is this really required?
         Capybara::Node::Element.instance_methods - Object.methods - instance_methods
       end
     end

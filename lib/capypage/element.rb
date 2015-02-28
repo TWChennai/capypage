@@ -50,7 +50,5 @@ module Capypage
       finder_options_without_base.delete(:base_element)
       options.reverse_merge finder_options_without_base
     end
-
-    include Capypage::ElementProxy
   end
 end
