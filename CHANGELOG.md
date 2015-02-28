@@ -1,3 +1,7 @@
+0.3.0
+* Upgraded capybara and activesupport dependecies
+* Not yet released
+
 v 0.2.5
 * Support for different selectors at element level
 
