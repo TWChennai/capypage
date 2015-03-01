@@ -15,12 +15,17 @@ module Capypage
       @child_dsl_block = block
     end
 
-    def find_by_text(text, options = {})
-      Element.new(child_selector, options.merge(finder_options(:text => text)), &child_dsl_block)
+    def find_by_text(text, additional_options = {})
+      additional_options[:text] = text
+      construct child_selector, finder_options(additional_options)
     end
 
     def find_by_index(index)
-      Element.new("#{child_selector}:nth-child(#{index + 1})", finder_options, &child_dsl_block)
+      construct "#{child_selector}:nth-child(#{index + 1})", finder_options
+    end
+
+    def all(options = {})
+      base_element.all(child_selector, options)
     end
 
     protected
@@ -29,8 +34,8 @@ module Capypage
     end
 
     private
-    def all(options = {})
-      base_element.all(child_selector, options)
+    def construct(selector, options)
+      Element.new(selector, options).tap { |e| e.instance_eval &child_dsl_block }
     end
 
     def finder_options(options = {})

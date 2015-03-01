@@ -2,36 +2,35 @@ require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/object/blank'
 
 module Capypage
+  ##
+  # Represents a single element in a page. Can be div, image, anchor or anything, which can be identified by selector.
+
   class Element
     include Capypage::ElementProxy
 
     attr_reader :selector, :finder_options, :base_element, :select_using
 
-    def initialize(selector, options = {}, &block)
+    def initialize(selector, options = {})
       @finder_options = options.reverse_merge :match => :first
       @selector       = selector
-      @base_element   = finder_options[:base_element]
+      @base_element   = finder_options.delete(:base_element)
       @select_using   = finder_options.delete(:select_using) || Capybara.default_selector
-
-      block.call(self) if block.present?
     end
 
     def element(name, selector, options = {})
-      base = self
-      define_singleton_method(name) { Element.new(selector, options.merge(:base_element => base)) }
+      define_singleton_method(name) { Element.new(selector, options.merge(:base_element => self)) }
     end
 
     def elements(name, selector, options = {}, &block)
-      base = self
-      define_singleton_method(name) { Elements.new(selector, options.merge(:base_element => base), &block) }
+      define_singleton_method(name) { Elements.new(selector, options.merge(:base_element => self), &block) }
     end
 
     def present?
-      base_element.has_selector? selector, capybara_finder_options
+      base_element.has_selector? selector, finder_options
     end
 
     def not_present?
-      base_element.has_no_selector? selector, capybara_finder_options
+      base_element.has_no_selector? selector, finder_options
     end
 
     def visible?(options = {})
@@ -42,13 +41,7 @@ module Capypage
 
     protected
     def capybara_element(options = {})
-      base_element.find(select_using, selector, capybara_finder_options(options))
-    end
-
-    def capybara_finder_options(options = {})
-      finder_options_without_base = finder_options.clone
-      finder_options_without_base.delete(:base_element)
-      options.reverse_merge finder_options_without_base
+      base_element.find(select_using, selector, options.reverse_merge(finder_options))
     end
   end
 end
