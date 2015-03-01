@@ -25,9 +25,9 @@ class SamplePage < Capypage::Page
   element :missing_element, '.missing.element'
   element :invisble_element, '.invisible'
 
-  elements :list, 'ul.list', 'li' do |row|
-    row.element :title, '.title'
-    row.element :details, '.details'
+  elements :list, 'ul.list', 'li' do
+    element :title, '.title'
+    element :details, '.details'
   end
 
   section :popup, PopupSection, '.popup'
