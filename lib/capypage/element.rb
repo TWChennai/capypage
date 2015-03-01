@@ -10,6 +10,11 @@ module Capypage
 
     attr_reader :selector, :finder_options, :base_element, :select_using
 
+    # Creates an element
+    # @param [String] selector to identify element
+    # @param [Hash] options
+    # @option options [Capypage::Element] :base_element Base element for the element to be created
+    # @option options [Symbol] :select_using Selector to switch at element level
     def initialize(selector, options = {})
       @finder_options = options.reverse_merge :match => :first
       @selector       = selector
