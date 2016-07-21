@@ -35,7 +35,7 @@ module Capypage
 
     private
     def construct(selector, options)
-      Element.new(selector, options).tap { |e| e.instance_eval &child_dsl_block }
+      Element.new(selector, options).tap { |e| e.instance_eval &child_dsl_block if !child_dsl_block.nil?}
     end
 
     def finder_options(options = {})

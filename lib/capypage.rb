@@ -3,6 +3,7 @@ require 'bundler'
 Bundler.require
 
 require 'capybara'
+require 'capybara/dsl'
 
 require 'capypage/version'
 require 'capypage/element_proxy'
