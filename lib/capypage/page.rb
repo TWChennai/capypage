@@ -22,7 +22,7 @@ module Capypage
     end
 
     def load
-      visit url.clone.tap{ |page_url|  url_options.each { |k, v| page_url.gsub!(":#{k}", v) } }
+      visit url.dup.tap{ |page_url|  url_options.each { |k, v| page_url.gsub!(":#{k}", v) }}
     end
   end
 end
