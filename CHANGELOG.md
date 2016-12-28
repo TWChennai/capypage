@@ -1,4 +1,7 @@
-0.3.0
+v 0.3.1
+* Upgraded capybara
+
+v 0.3.0
 * Upgraded capybara and activesupport dependecies
 * Not yet released
 
